@@ -6,6 +6,7 @@ public class SerDes {
                 .addField("required", "string", "name", 2)	// required string name = 2
                 .build();
 
+        schemaBuilder.addMessageToProtoSchema(messageBuilder);
         System.out.println(messageBuilder.toString());
     }
 }

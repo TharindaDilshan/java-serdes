@@ -18,5 +18,12 @@ public class ProtobufSchema {
             fileDescriptorSetBuilder = DescriptorProtos.FileDescriptorSet.newBuilder();
             fileDescriptorProtoBuilder.setName("DynamicSchema.proto");
         }
+
+        // Add message to proto schema
+        public SchemaBuilder addMessageToProtoSchema(ProtobufMessage message) {
+            DescriptorProtos.DescriptorProto protobufMessage = message.getProtobufMessage();
+            fileDescriptorProtoBuilder.addMessageType(protobufMessage);
+            return this;
+        }
     }
 }

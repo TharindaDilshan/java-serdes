@@ -17,6 +17,10 @@ public class ProtobufMessage {
         return new ProtobufMessageBuilder(messageName);
     }
 
+    public DescriptorProtos.DescriptorProto getProtobufMessage() {
+        return protobufMessage;
+    }
+
     public static class ProtobufMessageBuilder {
         // Describes a message type
         private DescriptorProtos.DescriptorProto.Builder messageBuilder;
