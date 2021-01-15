@@ -7,6 +7,8 @@ public class SerDes {
                 .build();
 
         schemaBuilder.addMessageToProtoSchema(messageBuilder);
+        ProtobufSchema schema = schemaBuilder.build();
+
         System.out.println(messageBuilder.toString());
     }
 }
