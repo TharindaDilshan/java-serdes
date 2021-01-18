@@ -6,7 +6,7 @@ ProtobufMessageField.java
  ProtobufMessageField
 ProtobufSchemaBuilder.java
  ProtobufSchemaBuilder
-SerDes.java
- SerDes
 ProtobufMessageBuilder.java
  ProtobufMessageBuilder
+SerDes.java
+ SerDes

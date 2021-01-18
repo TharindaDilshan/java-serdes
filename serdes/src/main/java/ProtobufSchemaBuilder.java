@@ -21,10 +21,12 @@ public class ProtobufSchemaBuilder {
     }
 
     // Compiles the .proto file and outputs a FileDescriptorSet
-    public void build() {
+    public DescriptorProtos.FileDescriptorSet build() {
         DescriptorProtos.FileDescriptorSet.Builder newFileDescriptorSetBuilder = DescriptorProtos.FileDescriptorSet.newBuilder();
         newFileDescriptorSetBuilder.addFile(fileDescriptorProtoBuilder.build());
         newFileDescriptorSetBuilder.mergeFrom(fileDescriptorSetBuilder.build());
 //        return new ProtobufSchema(newFileDescriptorSetBuilder.build());
+//        new ProtobufSchema(newFileDescriptorSetBuilder.build());
+        return newFileDescriptorSetBuilder.build();
     }
 }
