@@ -1,9 +1,12 @@
 ProtobufMessage.java
  ProtobufMessage
- ProtobufMessage$ProtobufMessageBuilder
- ProtobufMessage$ProtobufMessageField
 ProtobufSchema.java
  ProtobufSchema
- ProtobufSchema$SchemaBuilder
+ProtobufMessageField.java
+ ProtobufMessageField
+ProtobufSchemaBuilder.java
+ ProtobufSchemaBuilder
 SerDes.java
  SerDes
+ProtobufMessageBuilder.java
+ ProtobufMessageBuilder
