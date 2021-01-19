@@ -1,4 +1,10 @@
 import com.google.protobuf.DescriptorProtos;
+import com.google.protobuf.Descriptors;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProtobufSchemaBuilder {
     // Describes a complete .proto file
@@ -7,10 +13,14 @@ public class ProtobufSchemaBuilder {
     private DescriptorProtos.FileDescriptorSet.Builder fileDescriptorSetBuilder;
 
     // Constructor
-    public ProtobufSchemaBuilder() {
+    private ProtobufSchemaBuilder() {
         fileDescriptorProtoBuilder = DescriptorProtos.FileDescriptorProto.newBuilder();
         fileDescriptorSetBuilder = DescriptorProtos.FileDescriptorSet.newBuilder();
         fileDescriptorProtoBuilder.setName("DynamicSchema.proto");
+    }
+
+    public static ProtobufSchemaBuilder newSchemaBuilder() {
+        return new ProtobufSchemaBuilder();
     }
 
     // Add message to proto schema
@@ -20,13 +30,35 @@ public class ProtobufSchemaBuilder {
         return this;
     }
 
-    // Compiles the .proto file and outputs a FileDescriptorSet
-    public DescriptorProtos.FileDescriptorSet build() {
+    // Compiles the .proto file and builds FileDescriptors
+    public Descriptors.Descriptor build() throws Descriptors.DescriptorValidationException {
         DescriptorProtos.FileDescriptorSet.Builder newFileDescriptorSetBuilder = DescriptorProtos.FileDescriptorSet.newBuilder();
         newFileDescriptorSetBuilder.addFile(fileDescriptorProtoBuilder.build());
         newFileDescriptorSetBuilder.mergeFrom(fileDescriptorSetBuilder.build());
-//        return new ProtobufSchema(newFileDescriptorSetBuilder.build());
-//        new ProtobufSchema(newFileDescriptorSetBuilder.build());
-        return newFileDescriptorSetBuilder.build();
+        DescriptorProtos.FileDescriptorSet fileDescriptorSet = newFileDescriptorSetBuilder.build();
+
+        Descriptors.FileDescriptor fileDescriptor = null;
+        for (DescriptorProtos.FileDescriptorProto fileDescriptorProto : fileDescriptorSet.getFileList()) {
+            List<Descriptors.FileDescriptor> resolvedFileDescriptors = new ArrayList<Descriptors.FileDescriptor>();
+
+            /** Resolve import dependencies
+            List<String> dependencies = fileDescriptorProto.getDependencyList();
+            Map<String, Descriptors.FileDescriptor> resolvedFileDescMap = new HashMap<String, Descriptors.FileDescriptor>();
+
+            for (String dependency : dependencies) {
+                Descriptors.FileDescriptor fd = resolvedFileDescMap.get(dependency);
+                if (fd != null) resolvedFdList.add(fd);
+            }
+            **/
+
+            Descriptors.FileDescriptor[] fileDescriptorArray = new Descriptors.FileDescriptor[resolvedFileDescriptors.size()];
+            fileDescriptor = Descriptors.FileDescriptor.buildFrom(fileDescriptorProto, resolvedFileDescriptors.toArray(fileDescriptorArray));
+        }
+        Descriptors.Descriptor messageBuilder = null;
+        for (Descriptors.Descriptor messageType : fileDescriptor.getMessageTypes()){
+            messageBuilder = messageType;
+        }
+
+        return messageBuilder;
     }
 }
