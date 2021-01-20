@@ -1,8 +1,4 @@
 import com.google.protobuf.DescriptorProtos;
-import com.google.protobuf.DescriptorProtos.FieldDescriptorProto;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProtobufMessage {
     // Describes a message type

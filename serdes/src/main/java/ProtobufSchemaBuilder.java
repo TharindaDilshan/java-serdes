@@ -2,9 +2,7 @@ import com.google.protobuf.DescriptorProtos;
 import com.google.protobuf.Descriptors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProtobufSchemaBuilder {
     // Describes a complete .proto file
@@ -24,10 +22,9 @@ public class ProtobufSchemaBuilder {
     }
 
     // Add message to proto schema
-    public ProtobufSchemaBuilder addMessageToProtoSchema(ProtobufMessage message) {
+    public void addMessageToProtoSchema(ProtobufMessage message) {
         DescriptorProtos.DescriptorProto protobufMessage = message.getProtobufMessage();
         fileDescriptorProtoBuilder.addMessageType(protobufMessage);
-        return this;
     }
 
     // Compiles the .proto file and builds FileDescriptors
@@ -39,9 +36,9 @@ public class ProtobufSchemaBuilder {
 
         Descriptors.FileDescriptor fileDescriptor = null;
         for (DescriptorProtos.FileDescriptorProto fileDescriptorProto : fileDescriptorSet.getFileList()) {
-            List<Descriptors.FileDescriptor> resolvedFileDescriptors = new ArrayList<Descriptors.FileDescriptor>();
+            List<Descriptors.FileDescriptor> resolvedFileDescriptors = new ArrayList<>();
 
-            /** Resolve import dependencies
+            /* Resolve import dependencies
             List<String> dependencies = fileDescriptorProto.getDependencyList();
             Map<String, Descriptors.FileDescriptor> resolvedFileDescMap = new HashMap<String, Descriptors.FileDescriptor>();
 
@@ -49,7 +46,7 @@ public class ProtobufSchemaBuilder {
                 Descriptors.FileDescriptor fd = resolvedFileDescMap.get(dependency);
                 if (fd != null) resolvedFdList.add(fd);
             }
-            **/
+            */
 
             Descriptors.FileDescriptor[] fileDescriptorArray = new Descriptors.FileDescriptor[resolvedFileDescriptors.size()];
             fileDescriptor = Descriptors.FileDescriptor.buildFrom(fileDescriptorProto, resolvedFileDescriptors.toArray(fileDescriptorArray));

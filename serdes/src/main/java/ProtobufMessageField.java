@@ -17,7 +17,7 @@ public class ProtobufMessageField {
     }
 
     static {
-        fieldTypes = new HashMap<String, DescriptorProtos.FieldDescriptorProto.Type>();
+        fieldTypes = new HashMap<>();
         fieldTypes.put("double", DescriptorProtos.FieldDescriptorProto.Type.TYPE_DOUBLE);
         fieldTypes.put("float", DescriptorProtos.FieldDescriptorProto.Type.TYPE_FLOAT);
         fieldTypes.put("int32", DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT32);
@@ -34,7 +34,7 @@ public class ProtobufMessageField {
         fieldTypes.put("string", DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING);
         fieldTypes.put("bytes", DescriptorProtos.FieldDescriptorProto.Type.TYPE_BYTES);
 
-        fieldLabels = new HashMap<String, DescriptorProtos.FieldDescriptorProto.Label>();
+        fieldLabels = new HashMap<>();
         fieldLabels.put("optional", DescriptorProtos.FieldDescriptorProto.Label.LABEL_OPTIONAL);
         fieldLabels.put("required", DescriptorProtos.FieldDescriptorProto.Label.LABEL_REQUIRED);
         fieldLabels.put("repeated", DescriptorProtos.FieldDescriptorProto.Label.LABEL_REPEATED);
