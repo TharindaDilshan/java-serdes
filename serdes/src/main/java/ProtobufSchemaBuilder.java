@@ -11,14 +11,14 @@ public class ProtobufSchemaBuilder {
     private DescriptorProtos.FileDescriptorSet.Builder fileDescriptorSetBuilder;
 
     // Constructor
-    private ProtobufSchemaBuilder() {
+    private ProtobufSchemaBuilder(String schema) {
         fileDescriptorProtoBuilder = DescriptorProtos.FileDescriptorProto.newBuilder();
         fileDescriptorSetBuilder = DescriptorProtos.FileDescriptorSet.newBuilder();
-        fileDescriptorProtoBuilder.setName("DynamicSchema.proto");
+        fileDescriptorProtoBuilder.setName(schema);
     }
 
-    public static ProtobufSchemaBuilder newSchemaBuilder() {
-        return new ProtobufSchemaBuilder();
+    public static ProtobufSchemaBuilder newSchemaBuilder(String schema) {
+        return new ProtobufSchemaBuilder(schema);
     }
 
     // Add message to proto schema
@@ -44,11 +44,13 @@ public class ProtobufSchemaBuilder {
 
             for (String dependency : dependencies) {
                 Descriptors.FileDescriptor fd = resolvedFileDescMap.get(dependency);
-                if (fd != null) resolvedFdList.add(fd);
+                if (fd != null) resolvedFileDescriptors.add(fd);
             }
             */
 
             Descriptors.FileDescriptor[] fileDescriptorArray = new Descriptors.FileDescriptor[resolvedFileDescriptors.size()];
+//            System.out.println(fileDescriptorProto.getName());
+//            System.out.println("break");
             fileDescriptor = Descriptors.FileDescriptor.buildFrom(fileDescriptorProto, resolvedFileDescriptors.toArray(fileDescriptorArray));
         }
         Descriptors.Descriptor messageBuilder = null;

@@ -24,7 +24,13 @@ public class ProtobufMessageBuilder {
         return this;
     }
 
+    public ProtobufMessageBuilder addNestedMessage(ProtobufMessage nestedMessage){
+        messageBuilder.addNestedType(nestedMessage.getProtobufMessage());
+        return this;
+    }
+
     public ProtobufMessage build() {
+
         return new ProtobufMessage(messageBuilder.build());
     }
 
@@ -43,7 +49,7 @@ public class ProtobufMessageBuilder {
             messageFieldBuilder.setType(fieldType);
         } else {
             // TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP
-            messageFieldBuilder.setTypeName(type);
+            messageFieldBuilder.setTypeName("TYPE_MESSAGE");
         }
 
         if (defaultValue != null) {

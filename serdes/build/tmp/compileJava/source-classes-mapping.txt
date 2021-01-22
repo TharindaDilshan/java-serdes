@@ -1,5 +1,3 @@
-ProtobufSchema.java
- ProtobufSchema
 ProtobufMessageField.java
  ProtobufMessageField
 ProtobufMessage.java
