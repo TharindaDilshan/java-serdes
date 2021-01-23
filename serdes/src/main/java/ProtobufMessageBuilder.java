@@ -46,10 +46,10 @@ public class ProtobufMessageBuilder {
         DescriptorProtos.FieldDescriptorProto.Type fieldType = ProtobufMessageField.getFieldType(type);
         if (fieldType != null) {
             // Primitive types
-            messageFieldBuilder.setType(fieldType);
-        } else {
+         messageFieldBuilder.setType(fieldType);
+       } else {
             // TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP
-            messageFieldBuilder.setTypeName("TYPE_MESSAGE");
+            messageFieldBuilder.setTypeName(type);
         }
 
         if (defaultValue != null) {

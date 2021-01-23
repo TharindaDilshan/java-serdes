@@ -5,9 +5,10 @@ import com.google.protobuf.Message;
 
 public class SerDes {
     public static void main(String[] args) throws Descriptors.DescriptorValidationException {
-        ProtobufMessage nestedMessageBuilder = ProtobufMessage.newMessageBuilder("PhoneMsg")
+
+        ProtobufMessage nestedMessageBuilder = ProtobufMessage.newMessageBuilder("Phone")
                 .addField("required", "string", "mobile", 1, "0773256")
-                .addField("required", "string", "home", 2, "4567892")
+                .addField("optional", "string", "home", 2, "4567892")
                 .build();
 
         ProtobufSchemaBuilder schemaBuilder = ProtobufSchemaBuilder.newSchemaBuilder("Student.proto");
@@ -15,43 +16,33 @@ public class SerDes {
                 .addField("required", "int32", "id", 1)        // required int32 id = 1
                 .addField("required", "string", "name", 2)    // required string name = 2
                 .addNestedMessage(nestedMessageBuilder)
+                .addField("optional", "Phone", "phone", 3)
                 .build();
-//        System.out.println(messageBuilder.getProtobufMessage());
 
         schemaBuilder.addMessageToProtoSchema(messageBuilder);
         Descriptors.Descriptor schema = schemaBuilder.build();
-//        System.out.println(schema.toProto());
 
         DynamicMessage.Builder newMessageFromSchema = DynamicMessage.newBuilder(schema);
         Descriptors.Descriptor messageDescriptor = newMessageFromSchema.getDescriptorForType();
-//        System.out.println(messageDescriptor.findNestedTypeByName("PhoneMsg").getFields());
+//        System.out.println(messageDescriptor.getFields());
 
-        /* Testing */
-
-        Descriptors.Descriptor desc = newMessageFromSchema.getDescriptorForType().findNestedTypeByName("PhoneMsg");
-        DynamicMessage.Builder subMsg = DynamicMessage.newBuilder(desc);
-        Descriptors.Descriptor subMsgDes = subMsg.getDescriptorForType();
-        subMsg.setField(subMsgDes.findFieldByName("mobile"), "74848")
-                .setField(subMsgDes.findFieldByName("home"), "8745");
-//                .build();
-//        System.out.println(subMsg);
-
-        /* End Testing */
+        Descriptors.Descriptor desc = schema.findNestedTypeByName("Phone");
+        DynamicMessage subMsg = DynamicMessage.newBuilder(schema.findNestedTypeByName("Phone"))
+                .setField(desc.findFieldByName("mobile"), "74848")
+                .setField(desc.findFieldByName("home"), "8745")
+                .build();
 
         DynamicMessage message = newMessageFromSchema
                 .setField(messageDescriptor.findFieldByName("id"), 1)
                 .setField(messageDescriptor.findFieldByName("name"), "Tharinda Dilshan")
-//                .setField(subMsgDes.findFieldByName("mobile"), "789456")
-//                .setField(messageDescriptor.findNestedTypeByName("PhoneMsg").findFieldByName("mobile"), subMsg.build())
+                .setField(messageDescriptor.findFieldByName("phone"), subMsg)
                 .build();
-
-//        System.out.println(message);
 
         byte[] bytes = message.toByteArray();
 
         try {
             DynamicMessage des = DynamicMessage.parseFrom(messageDescriptor, bytes);
-//            System.out.println(des);
+            System.out.println(des);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
