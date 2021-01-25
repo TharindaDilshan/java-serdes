@@ -22,16 +22,15 @@ public class SerDes {
         schemaBuilder.addMessageToProtoSchema(messageBuilder);
         Descriptors.Descriptor schema = schemaBuilder.build();
 
-        DynamicMessage.Builder newMessageFromSchema = DynamicMessage.newBuilder(schema);
-        Descriptors.Descriptor messageDescriptor = newMessageFromSchema.getDescriptorForType();
-//        System.out.println(messageDescriptor.getFields());
-
         Descriptors.Descriptor desc = schema.findNestedTypeByName("Phone");
         DynamicMessage subMsg = DynamicMessage.newBuilder(schema.findNestedTypeByName("Phone"))
                 .setField(desc.findFieldByName("mobile"), "74848")
                 .setField(desc.findFieldByName("home"), "8745")
                 .build();
 
+        DynamicMessage.Builder newMessageFromSchema = DynamicMessage.newBuilder(schema);
+        Descriptors.Descriptor messageDescriptor = newMessageFromSchema.getDescriptorForType();
+//        System.out.println(messageDescriptor.getFields());
         DynamicMessage message = newMessageFromSchema
                 .setField(messageDescriptor.findFieldByName("id"), 1)
                 .setField(messageDescriptor.findFieldByName("name"), "Tharinda Dilshan")
@@ -41,7 +40,7 @@ public class SerDes {
         byte[] bytes = message.toByteArray();
 
         try {
-            DynamicMessage des = DynamicMessage.parseFrom(messageDescriptor, bytes);
+            DynamicMessage des = DynamicMessage.parseFrom(schema, bytes);
             System.out.println(des);
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
