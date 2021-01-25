@@ -22,10 +22,10 @@ public class SerDes {
         schemaBuilder.addMessageToProtoSchema(messageBuilder);
         Descriptors.Descriptor schema = schemaBuilder.build();
 
-        Descriptors.Descriptor desc = schema.findNestedTypeByName("Phone");
-        DynamicMessage subMsg = DynamicMessage.newBuilder(schema.findNestedTypeByName("Phone"))
-                .setField(desc.findFieldByName("mobile"), "74848")
-                .setField(desc.findFieldByName("home"), "8745")
+        Descriptors.Descriptor subMessageDescriptor = schema.findNestedTypeByName("Phone");
+        DynamicMessage subMessage = DynamicMessage.newBuilder(schema.findNestedTypeByName("Phone"))
+                .setField(subMessageDescriptor.findFieldByName("mobile"), "74848")
+                .setField(subMessageDescriptor.findFieldByName("home"), "8745")
                 .build();
 
         DynamicMessage.Builder newMessageFromSchema = DynamicMessage.newBuilder(schema);
@@ -34,7 +34,7 @@ public class SerDes {
         DynamicMessage message = newMessageFromSchema
                 .setField(messageDescriptor.findFieldByName("id"), 1)
                 .setField(messageDescriptor.findFieldByName("name"), "Tharinda Dilshan")
-                .setField(messageDescriptor.findFieldByName("phone"), subMsg)
+                .setField(messageDescriptor.findFieldByName("phone"), subMessage)
                 .build();
 
         byte[] bytes = message.toByteArray();
