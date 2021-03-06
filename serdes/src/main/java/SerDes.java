@@ -1,7 +1,7 @@
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.Message;
+// import com.google.protobuf.Message;
 
 public class SerDes {
     public static void main(String[] args) throws Descriptors.DescriptorValidationException {
@@ -17,6 +17,14 @@ public class SerDes {
                 .addField("required", "string", "name", 2)    // required string name = 2
                 .addNestedMessage(nestedMessageBuilder)
                 .addField("optional", "Phone", "phone", 3)
+                .addOneofField("address")
+                        .addField("string", "work", 4)
+                        .addField("string", "home", 5)
+                        .oneofMessageBuilder()
+                .addOneofField("experience")
+                        .addField("string", "student", 6)
+                        .addField("string", "employee", 7)
+                        .oneofMessageBuilder()
                 .build();
 
         schemaBuilder.addMessageToProtoSchema(messageBuilder);
@@ -35,6 +43,8 @@ public class SerDes {
                 .setField(messageDescriptor.findFieldByName("id"), 1)
                 .setField(messageDescriptor.findFieldByName("name"), "Tharinda Dilshan")
                 .setField(messageDescriptor.findFieldByName("phone"), subMessage)
+                .setField(messageDescriptor.findFieldByName("home"), "home address")
+                .setField(messageDescriptor.findFieldByName("student"), "ucsc")
                 .build();
 
         byte[] bytes = message.toByteArray();
