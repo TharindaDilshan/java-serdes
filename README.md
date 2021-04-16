@@ -1,6 +1,6 @@
-# Java SerDes
+# Runtime Java SerDes
 
-A Runtime Java Serializer/Deserializer implemented using Proto3
+A Runtime Java Serializer/Deserializer implemented using Google Protocol Buffers(Proto3) API
 
 ## Example Use Case
 
